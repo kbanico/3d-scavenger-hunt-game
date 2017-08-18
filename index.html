@@ -127,7 +127,7 @@
         
         
         function moveItem(item){
-           /* mobile = mobileAndTabletcheck()
+            mobile = mobileAndTabletcheck()
             if(!mobile){
                 item.addEventListener("click",function(){
                     itemFound++;
@@ -139,21 +139,7 @@
                     itemFound++;
                     item.setAttribute("position","0 5 0")
                     item.setAttribute("scale","0 0 0")
-                },false)*/
-            
-            if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                item.addEventListener("touchstart",function(e){
-                    itemFound++;
-                    item.setAttribute("position","0 5 0")
-                    item.setAttribute("scale","0 0 0")
                 },false)
-            } else {
-               item.addEventListener("click",function(){
-                    itemFound++;
-                    item.setAttribute("position","0 5 0")
-                    item.setAttribute("scale","0 0 0")
-                })  
-            }
             
             
         }
