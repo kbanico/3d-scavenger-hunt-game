@@ -1,0 +1,182 @@
+<html>
+  <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handjs/1.3.11/hand.js"></script>
+<!--    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/0.6.1/aframe-master.min.js"></script>
+  </head>
+  <body>
+    <a-scene id="sceneElement">
+       
+        <a-assets>
+            <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
+            <img id="floorTexture" src="grass.jpg">
+            <img id="fork" src="fork.png">
+            <img id="coin" src="coin.png">
+            <img id="slignstone" src="slignstone.png">
+            <img id="lattestone" src="lattestone.jpg">
+            <img id="guamFlag" src="guam.png">
+            <img id="tree1" src="tree1.png">
+            <img id="tree2" src="tree2.png">
+            <img id="tree3" src="tree3.png">
+            <img id="coconut" src="coconut.png">
+            <img id="flower" src="flower.png">
+            <img id="rice" src="rice.png">
+            <img id="crab" src="crab.png">
+<!--
+            <img id="random1" src="random1.png">
+            <img id="random2" src="random2.png">
+            <img id="random3" src="random3.png">
+            <img id="random4" src="random4.png">
+            <img id="random5" src="random5.png">
+-->
+            <img id="rock" src="rock.png">
+        </a-assets> 
+        
+      <a-camera id="camera">
+          <a-cursor color="#fff"></a-cursor>
+      </a-camera>
+      
+
+    
+      <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"></a-sky>
+      <a-plane src="#floorTexture" rotation="-90 0 0" width="50" height="50" repeat="30 30"></a-plane>
+      
+      
+      <a-box id="box" src="#guamFlag" position="0 15 -15" size="10" height="10" width="7">
+      </a-box>
+      
+      <a-box class="clickable" id="lattestone1" src="#lattestone" position="3 3 25" height="7" width="7" depth="7">
+      </a-box>
+      
+      <a-image class="clickable" id="fork1" src="#fork"  width="1" height="1" rotation="-90 0 0" position="-5 0.4 4"></a-image>
+      
+      <a-image class="clickable" id="coin1" src="#coin"  width="1" height="1" rotation="-70 0 0" position="0 0.4 -2"></a-image>
+      
+      <a-image class="clickable" id="slignstone1" src="#slignstone"  width="1" height="1" rotation="-30 0 0" position="-3 0.4 18"></a-image>
+      
+      <a-image class="clickable" id="coconut1" src="#coconut"  width="1" height="1" rotation="-30 0 0" position="3 0.4 -18"></a-image>
+      
+      <a-image class="clickable" id="flower1" src="#flower"  width="1" height="1" rotation="-30 0 0" position="-12 0.4 8"></a-image>
+      
+      <a-image class="clickable" id="rice1" src="#rice"  width="1" height="1" rotation="-30 0 0" position="14 0.4 15"></a-image>
+      
+      <a-image class="clickable" id="crab1" src="#crab"  width="1" height="1" rotation="-90 0 0" position="-3 0.4 0"></a-image>
+      
+     <a-entity id="textBox" position="0 6 -10" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
+                  text="color: white; align: center; value: Find A Treasure Chest\nFind A Fork\nFind A Gold Coin\nFind A Latte Stone\nFind A Coconut\nFind A Plumeria Flower\nFind A Crab\n\nMove Around With The Arrow Keys On Your Computer\n\nWhen you find the items point your camera and click on it; width: 4; ">
+     </a-entity>
+     
+     
+     <a-entity id="missionCompleteBox" position="-4 6 -10" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
+                  text="color: white; align: center; value: Completed ">
+     </a-entity>
+      
+      
+      
+      
+    </a-scene>
+    
+    
+    
+    
+    <script>
+        var itemFound = 0;
+        
+        var camera = document.querySelector("#camera")
+        var completedBox = document.querySelector("#missionCompleteBox")
+      
+        items = document.querySelectorAll(".clickable")
+        for(var i = 0; i < items.length; i++){
+            moveItem(items[i])
+        }
+        
+        
+        var sceneEl = document.querySelector('a-scene');
+        
+        //random trees
+        for(var i = 0; i < 25; i++){
+            randomX = Math.floor(Math.random() * 25);
+            negative = Math.random() < .5 ? -1 : 1
+            randomTree = Math.floor(Math.random() * 3) + 1
+            randomX *= negative
+            var entityEl = document.createElement('a-image');
+            entityEl.setAttribute("src","#tree" + randomTree.toString());
+            entityEl.setAttribute("position","" + randomX + " 1.5 " + (Math.floor(Math.random() * 25) * negative) + "")
+            entityEl.setAttribute("width","3")
+            entityEl.setAttribute("height","4")
+            sceneEl.appendChild(entityEl);
+        }
+        
+        //random blockers
+        for(var i = 0; i < 20; i++){
+            randomX = Math.floor(Math.random() * 25);
+            negative = Math.random() < .5 ? -1 : 1
+          
+            var entityEl = document.createElement('a-dodecahedron');
+            entityEl.setAttribute("radius",1);
+            entityEl.setAttribute("src","#rock")
+            entityEl.setAttribute("position","" + randomX + " 1 " + (Math.floor(Math.random() * 25) * negative) + "")
+            
+            sceneEl.appendChild(entityEl);
+        }
+        
+//        //random items
+//        for(var i = 0; i < 25; i++){
+//            randomX = Math.floor(Math.random() * 25);
+//            negative = Math.random() < .5 ? -1 : 1
+//            randomItem = Math.floor(Math.random() * 5) + 1
+//            randomX *= negative
+//            var entityEl = document.createElement('a-image');
+//            entityEl.setAttribute("src","#random" + randomItem.toString());
+//            entityEl.setAttribute("position","" + randomX + " 1.5 " + (Math.floor(Math.random() * 25) * negative) + "")
+////            entityEl.setAttribute("width","3")
+////            entityEl.setAttribute("height","4")
+//            sceneEl.appendChild(entityEl);
+//        }
+        
+        
+        function moveItem(item){
+            mobile = mobileAndTabletcheck()
+            if(!mobile){
+                item.addEventListener("click",function(){
+                    itemFound++;
+                    item.setAttribute("position","0 5 0")
+                    item.setAttribute("scale","0 0 0")
+                })  
+            }
+                item.addEventListener("touchstart",function(){
+                    itemFound++;
+                    item.setAttribute("position","0 5 0")
+                    item.setAttribute("scale","0 0 0")
+                },false)
+            
+            
+        }
+        
+        
+        
+        
+        var loop = setInterval(function(){ 
+            if(itemFound == 2){
+                console.log("done")
+                positions = camera.getAttribute("position")
+                completedBox.setAttribute("position",{x:positions.x,y:positions.y,z:positions.z - 1})
+                positions = camera.getAttribute("rotation")
+                //completedBox.setAttribute("rotation",{x:positions.x,y:positions.y,z:positions.z + 1})
+                completedBox.setAttribute("geometry",{width:15,height:15})
+                completedBox.setAttribute("text",{width:20})
+                clearInterval(loop);
+            }
+        }, 1000);
+        
+   
+    function mobileAndTabletcheck() {
+      var check = false;
+      (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+      return check;
+  }
+        
+        
+    </script>
+  </body>
+</html>
