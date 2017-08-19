@@ -56,8 +56,8 @@
       
       <a-image class="clickable" id="crab1" src="#crab"  width="1" height="1" rotation="-90 0 0" position="-3 0.4 0"></a-image>
       
-     <a-entity id="textBox" position="0 6 -10" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
-                  text="color: white; align: center; value: Find A Treasure Chest\nFind A Fork\nFind A Gold Coin\nFind A Latte Stone\nFind A Coconut\nFind A Plumeria Flower\nFind A Crab\n\nMove Around With The Arrow Keys On Your Computer\n\nWhen you find the items point your camera and click on it; width: 4; ">
+     <a-entity id="textBox" position="0 3 -5" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
+                  text="color: white; align: center; value: Find The Following Items\n\nFind A Slignstone\nFind Red Rice\nFind A Fork\nFind A Gold Coin\nFind A Latte Stone\nFind A Coconut\nFind A Plumeria Flower\nFind A Crab\n\nMove Around With The Arrow Keys On Your Computer or touch on your phone to move around\n\nWhen you find the items point your camera and click on it; width: 4; ">
      </a-entity>
      
      
@@ -128,7 +128,7 @@
                     item.setAttribute("scale","0 0 0")
                 })  
             }
-                item.addEventListener("touchstart",function(e){
+                item.addEventListener("mouseup",function(e){
                     itemFound++;
                     item.setAttribute("position","0 5 0")
                     item.setAttribute("scale","0 0 0")
@@ -172,7 +172,7 @@
         
         
         var loop = setInterval(function(){ 
-            if(itemFound == 2){
+            if(itemFound == 8){
                 console.log("done")
                 positions = camera.getAttribute("position")
                 completedBox.setAttribute("position",{x:positions.x,y:positions.y,z:positions.z - 1})
