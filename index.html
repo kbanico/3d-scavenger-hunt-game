@@ -23,13 +23,6 @@
             <img id="flower" src="flower.png">
             <img id="rice" src="rice.png">
             <img id="crab" src="crab.png">
-<!--
-            <img id="random1" src="random1.png">
-            <img id="random2" src="random2.png">
-            <img id="random3" src="random3.png">
-            <img id="random4" src="random4.png">
-            <img id="random5" src="random5.png">
--->
             <img id="rock" src="rock.png">
         </a-assets> 
         
@@ -144,31 +137,38 @@
             
         }
         
-        
+        var touching = false;
+        var goingLeft = false;
+        var goingRight = false;
+        var goingFoward = false;
+        var goingBack = false;
           sceneEl.addEventListener("touchstart",function(e){
-                //console.log(e.touches[0].clientX)
-                console.log(e.touches[0].clientY)
-                
-                
+                touching = true
                 position=camera.getAttribute("position")
-                z = position.z;
-                x = position.x;
+     
                 
                 if(e.touches[0].clientX < width / 2 - 100){
-                    x = position.x-=0.1
+                    goingLeft = true;
                 }else if(e.touches[0].clientX > width / 2 + 100){
-                    x = position.x+=0.1
+                    goingRight = true;
                 }
                 
                 if(e.touches[0].clientY < height / 2 - 100){
-                    z = position.z-=0.1
+                    goingBack = true;
                 }else if(e.touches[0].clientY > height / 2 + 100){
-                    z = position.z+=0.1
+                    goingFoward = true;
                 }
-                
-                
-                camera.setAttribute("position",{x:x,y:1,z:z})
             },false)
+        
+          sceneEl.addEventListener("touchend",function(e){
+                touching = false;
+                goingLeft = false;
+                goingRight = false;
+                goingFoward = false;
+                goingBack = false;
+            },false)
+        
+        
         
         
         var loop = setInterval(function(){ 
@@ -183,11 +183,29 @@
                 clearInterval(loop);
             }
             
+            if(touching){
+                position=camera.getAttribute("position")
+                if(goingLeft){
+                   camera.setAttribute("position",{x:position.x-=0.1,y:1,z:position.z}) 
+                }
+                if(goingRight){
+                   camera.setAttribute("position",{x:position.x+=0.1,y:1,z:position.z})  
+                }
+                if(goingFoward){
+                    camera.setAttribute("position",{x:position.x,y:1,z:position.z+=0.1}) 
+                }
+                if(goingBack){
+                    camera.setAttribute("position",{x:position.x,y:1,z:position.z-=0.1}) 
+                }
+                
+            }
+            
+            
           
             
             
             
-        }, 1000);
+        }, 30);
         
    
     function mobileAndTabletcheck() {
