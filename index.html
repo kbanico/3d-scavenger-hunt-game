@@ -177,10 +177,15 @@
                 positions = camera.getAttribute("position")
                 completedBox.setAttribute("position",{x:positions.x,y:positions.y,z:positions.z - 1})
                 positions = camera.getAttribute("rotation")
-                //completedBox.setAttribute("rotation",{x:positions.x,y:positions.y,z:positions.z + 1})
                 completedBox.setAttribute("geometry",{width:15,height:15})
                 completedBox.setAttribute("text",{width:20})
-                clearInterval(loop);
+                
+                setTimeout(function(){ 
+                    completedBox.setAttribute("position",{x:0,y:10,z:0})
+                    itemFound = 0
+                }, 3000);
+                
+                //clearInterval(loop);
             }
             
             if(touching){
